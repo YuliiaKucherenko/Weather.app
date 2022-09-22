@@ -130,4 +130,8 @@ body {
   .min-temperature {
     line-height: 0;
   }
-  
+.open-source{
+    text-align: center;
+    padding: 20px;
+    color:navy;
+}
