@@ -1,5 +1,6 @@
-function formatDate(date) {
-  let now = date.getDate();
+function formatDate(timestamp) {
+  let date = new Date(timestamp * 1000);
+  let now = date.getDate(timestamp);
   let currentMonth = date.getMonth();
   let months = [
     "January",
@@ -13,7 +14,7 @@ function formatDate(date) {
     "September",
     "October",
     "November",
-    "December"
+    "December",
   ];
   let month = months[currentMonth];
   let year = date.getFullYear();
@@ -39,11 +40,55 @@ function formatHours(date) {
     "Wednesday",
     "Thursday",
     "Friday",
-    "Saturday"
+    "Saturday",
   ];
   let day = days[dayIndex];
 
   return `${day} ${hours}:${minutes}`;
+}
+function formatDay(timestamp) {
+  let date = new Date(timestamp * 1000);
+  let day = date.getDay();
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  return days[day];
+}
+
+function displayForcast(response) {
+  let forecast = response.data.daily;
+  let forcastElement = document.querySelector("#forecast");
+  let forecastHTML = `<div class="col-sm">`;
+
+  forecast.forEach(function (forecastDay, index) {
+    if (index < 6) {
+      forecastHTML =
+        forecastHTML +
+        `<div class="row">
+              
+                  <div class="dayOfWeek">${formatDay(forecastDay.dt)}</div>
+                   <img src="http://openweathermap.org/img/wn/${
+                     forecastDay.weather[0].icon
+                   }@2x.png" alt="" width="42">
+                  <div class="card-body">
+                    <br />
+                    <span class="max-temperature" id="max-temperature"
+                      >${Math.round(forecastDay.temp.max)}°
+                    </span>
+                    <span class="min-temperature" id="min-temperature"
+                      >${Math.round(forecastDay.temp.min)}°</span>
+                  </div>
+              </div>
+              `;
+    }
+  });
+
+  forecastHTML = forecastHTML + `</div>`;
+  forecastElement.innerHTML = forecastHTML;
+}
+
+function getForecast(coordinates) {
+  let apiKey = "ab6174be7b717732ef179b1d3f3555cf";
+  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(displayForecast);
 }
 
 function handleSubmit(event) {
@@ -85,6 +130,7 @@ function chooseBerlin(event) {
 }
 
 function showTemperature(response) {
+  let iconElement = document.querySelector("#icon");
   celsiusTemperature = response.data.main.temp;
 
   document.querySelector("#city1").innerHTML = response.data.name;
@@ -98,7 +144,14 @@ function showTemperature(response) {
   );
   document.querySelector("#description").innerHTML =
     response.data.weather[0].description;
+  iconElement.setAttribute(
+    "src",
+    `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`
+  );
+  iconElement.setAttribute("alt", response.data.weather[0].description);
+  getForecast(response.data.coord);
 }
+
 function searchLocation(position) {
   let apiKey = "ab6174be7b717732ef179b1d3f3555cf";
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&appid=${apiKey}&units=metric`;
@@ -114,12 +167,16 @@ function convertToCelsius(event) {
   event.preventDefault();
   let temperatureElement = document.querySelector("#temperature");
   temperatureElement.innerHTML = Math.round(celsiusTemperature);
+  fahrenheitLink.classList.remove("active");
+  celsiusLink.classList.add("active");
 }
 
 function convertToFahrenheit(event) {
   event.preventDefault();
   let temperatureElement = document.querySelector("#temperature");
   temperatureElement.innerHTML = Math.round(celsiusTemperature * 1.8 + 32);
+  celsiusLink.classList.remove("active");
+  fahrenheitLink.classList.add("active");
 }
 let celsiusTemperature = null;
 let dateElement = document.querySelector("#current-date");
@@ -155,4 +212,4 @@ madridButton.addEventListener("click", chooseMadrid);
 let berlinButton = document.querySelector("#berlin-button");
 berlinButton.addEventListener("click", chooseBerlin);
 
-searchCity("Odessa");
+searchCity("Odesa");
