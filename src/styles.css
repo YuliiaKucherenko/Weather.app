@@ -1,7 +1,6 @@
 body {
   font-family: "Poppins", sans-serif;
- 
-  
+  background-color: #f8f7f9;
 }
 .weather-wrapper {
   max-width: 601px;
@@ -15,8 +14,8 @@ body {
   display: block;
   border-radius: 10px;
   box-shadow: 5px 5px 5px 2px rgb(206, 203, 203);
+  background-image: url("../image/image.cloud.jpg");
   background: radial-gradient(circle at 11.7% 80.6%, rgb(249, 185, 255) 0%, rgb(177, 172, 255) 49.3%, rgb(98, 203, 255) 89%);
- 
 }
 
 .city {
@@ -48,13 +47,12 @@ body {
 }
 
 .search {
-  background-color:blueviolet;
+  background-color: #f5e9f7;
   border-color: #ab47bb;
 }
 .current {
-  background-color:blueviolet;
   width: 120px;
-  
+  background-color: #ab47bb;
   border: #ab47bb;
   padding: 5px 20px;
   color: black;
@@ -109,7 +107,7 @@ h1 {
 }
 
 .humidity {
-  padding-top: 6px;
+  padding-top: 21px;
 }
 .big-degree {
   font-size: 75px;
@@ -118,17 +116,18 @@ h1 {
   line-height: 1;
 }
 .wind {
-  padding-top: 40px;
+  padding-top: 55px;
 }
 .overcast {
-  padding-top: 23px;
+  padding-top: 40px;
   text-transform: capitalize;
 }
-.col-2 {
-  background-color: #faf6fc;
+.forecast1 {
+  background-color: #ab47bb;
   text-align: center;
-  border: 2px solid #f5e9f7;
+  border: 2px solid #ab47bb;
   margin-top: 20px;
+  padding-top: 40px;
 }
 
 .dayOfWeek,
@@ -136,16 +135,23 @@ h1 {
   color: black;
   font-weight: bold;
   opacity: 0, 5;
+  position: relative;
 }
 .max-temperature {
-  font-size: 17px;
+  font-size: 16px;
 }
 .min-temperature {
   line-height: 0;
   opacity: 0, 5;
 }
+
 .open-source{
   text-align: center;
   padding: 20px;
  
 }
+
+
+
+
+
